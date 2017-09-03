@@ -62,7 +62,7 @@ public class RoverMovementCalculatorTest {
         testee.calculateMovements(new File(getClass().getClassLoader().getResource("Testinput_fail_field_only_one_field").getPath()).getAbsolutePath());
 
         Assert.assertFalse(testee.getResult().isFileValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertEquals("field has to be bigger than one field", testee.getResult().getMessage());
 
     }
 
@@ -170,7 +170,7 @@ public class RoverMovementCalculatorTest {
 
         Assert.assertTrue(testee.getResult().isFileValid());
         Assert.assertFalse(testee.getResult().isMovementsValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertEquals("out of bounds x coord rover index 1(rover 2);", testee.getResult().getMessage());
 
     }
 
@@ -183,7 +183,7 @@ public class RoverMovementCalculatorTest {
 
         Assert.assertTrue(testee.getResult().isFileValid());
         Assert.assertFalse(testee.getResult().isMovementsValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertEquals("out of bounds y coord rover index 1(rover 2);", testee.getResult().getMessage());
 
     }
 
@@ -196,7 +196,7 @@ public class RoverMovementCalculatorTest {
 
         Assert.assertTrue(testee.getResult().isFileValid());
         Assert.assertFalse(testee.getResult().isMovementsValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertEquals("out of bounds y coord rover index 1(rover 2);", testee.getResult().getMessage());
 
     }
 
@@ -209,7 +209,7 @@ public class RoverMovementCalculatorTest {
 
         Assert.assertTrue(testee.getResult().isFileValid());
         Assert.assertFalse(testee.getResult().isMovementsValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertEquals("out of bounds x coord rover index 1(rover 2);", testee.getResult().getMessage());
 
     }
 
@@ -222,7 +222,7 @@ public class RoverMovementCalculatorTest {
 
         Assert.assertTrue(testee.getResult().isFileValid());
         Assert.assertFalse(testee.getResult().isMovementsValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertEquals("given the input the rovers already collide in start position", testee.getResult().getMessage());
 
     }
 
@@ -235,7 +235,7 @@ public class RoverMovementCalculatorTest {
 
         Assert.assertTrue(testee.getResult().isFileValid());
         Assert.assertFalse(testee.getResult().isMovementsValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertEquals("Rover 1 collision with Rover 2 at (3,3)", testee.getResult().getMessage());
 
     }
 
@@ -248,7 +248,7 @@ public class RoverMovementCalculatorTest {
 
         Assert.assertTrue(testee.getResult().isFileValid());
         Assert.assertFalse(testee.getResult().isMovementsValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertEquals("Rover 2 collision with Rover 1 at (1,3)", testee.getResult().getMessage());
 
     }
 

@@ -75,7 +75,67 @@ public class RoverMovementCalculator {
     }
 
     private void calculateMovements() {
-        throw new NotYetImplementedException();
+        inputHealthy = true;
+        // order of rovers is important, since it can lead to crashes
+        for (int i = 0; i < roversInStartPosition.size(); i++) {
+            Rover aRover = roversInStartPosition.get(i);
+            // check collision with rovers which are in start position
+            for (int j = i + 1; j < roversInStartPosition.size(); j++) {
+                if (aRover.getCurrentX() == roversInStartPosition.get(j).getCurrentX()
+                        && aRover.getCurrentY() == roversInStartPosition.get(j).getCurrentY()) {
+                    // collision
+                    errorMessage += "given the input the rovers already collide in start position";
+                    inputHealthy = false;
+                    return;
+                }
+            }
+            for (Movement aMovement : plannedRoverMoves.get(i)) {
+                aRover.move(aMovement);
+                // check out of bounds
+                if (aRover.getCurrentX() > maxX) {
+                    errorMessage += "out of bounds x coord rover index " + aRover.getId() + "(rover " + aRover.getNumber() + ");";
+                    inputHealthy = false;
+                    return;
+                }
+                if (aRover.getCurrentY() > maxY) {
+                    errorMessage += "out of bounds y coord rover index " + aRover.getId() + "(rover " + aRover.getNumber() + ");";
+                    inputHealthy = false;
+                    return;
+                }
+                if (aRover.getCurrentX() < 0) {
+                    errorMessage += "out of bounds x coord rover index " + aRover.getId() + "(rover " + aRover.getNumber() + ");";
+                    inputHealthy = false;
+                    return;
+                }
+                if (aRover.getCurrentY() < 0) {
+                    errorMessage += "out of bounds y coord rover index " + aRover.getId() + "(rover " + aRover.getNumber() + ");";
+                    inputHealthy = false;
+                    return;
+                }
+                // check collisions with already moved rovers
+                for (Rover aRoverPosition : roversInEndPosition) {
+                    if (aRover.getCurrentX() == aRoverPosition.getCurrentX() && aRover.getCurrentY() == aRoverPosition.getCurrentY()) {
+                        // collision
+                        errorMessage += "Rover " + aRover.getNumber() + " collision with Rover " + aRoverPosition.getNumber()
+                                + " at (" + aRover.getCurrentX() + "," + aRover.getCurrentY() + ")";
+                        inputHealthy = false;
+                        return;
+                    }
+                }
+                // check collision with rovers which are in start position
+                for (int j = i + 1; j < roversInStartPosition.size(); j++) {
+                    if (aRover.getCurrentX() == roversInStartPosition.get(j).getCurrentX() && aRover.getCurrentY() == roversInStartPosition.get(j).getCurrentY()) {
+                        // collision
+                        errorMessage += "Rover " + aRover.getNumber() + " collision with Rover " + (roversInStartPosition.get(j).getNumber())
+                                + " at (" + aRover.getCurrentX() + "," + aRover.getCurrentY() + ")";
+                        inputHealthy = false;
+                        return;
+                    }
+                }
+            }
+            // all moves done, so now let's add the rover to the end position and remove from start position
+            roversInEndPosition.add(aRover);
+        }
     }
 
     protected boolean extractRoverMovementData(int roverindex, int lineNumber, String roverMovement) {
@@ -133,6 +193,13 @@ public class RoverMovementCalculator {
         }
         maxX = Integer.valueOf(fieldSizeElements[0]);
         maxY = Integer.valueOf(fieldSizeElements[1]);
+
+        if (maxX < 2 && maxY < 2) {
+            inputValid = false;
+            errorMessage += "field has to be bigger than one field";
+            return false;
+        }
+
         return true;
     }
 
