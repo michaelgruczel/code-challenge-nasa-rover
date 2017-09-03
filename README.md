@@ -34,20 +34,7 @@ Usage: java -jar RoverCli.jar <PATH TO FILE WITH COMMANDS>, more details by java
 java -jar build\libs\rover-cli-1.0-SNAPSHOT.jar -help
 Usage: java -jar RoverCli.jar <PATH TO FILE WITH COMMANDS>
 File format:
-<MAX X COORDINATE> <MAX Y COORDINATE>
-<X COORDINATE ROVER 1> <Y COORDINATE ROVER 1> <DIRECTION ROVER 1>
-<COMMAND ROVER 1><COMMAND ROVER 1><COMMAND ROVER 1><COMMAND ROVER 1> ...
-<X COORDINATE ROVER 2> <Y COORDINATE ROVER 2> <DIRECTION ROVER 2>
-<COMMAND ROVER 2><COMMAND ROVER 2><COMMAND ROVER 1><COMMAND ROVER 2> ...
-...
-legal commands are: M for move, L for turning left, R for turning right, ...
-legal directions are: N for North, W for West, E for East and S for South
-for example:
-5 5
-1 2 N
-LMLMLMLMM
-3 3 E
-MMRMMRMRRM
+..........
 
 java -jar build\libs\rover-cli-1.0-SNAPSHOT.jar .\src\test\resources\TestInput_valid_1
 rover end positions:
@@ -68,3 +55,11 @@ report:
 * html test report can be found under build\reports\tests\test\index.html
 * code coverage report at build\reports\jacoco\test\html\index.html
 
+
+![](https://github.com/michaelgruczel/code-challenge-nasa-rover/raw/master/image0.PNG "")
+
+![](https://github.com/michaelgruczel/code-challenge-nasa-rover/raw/master/image1.PNG "")
+
+![](https://github.com/michaelgruczel/code-challenge-nasa-rover/raw/master/image2.PNG "")
+
+![](https://github.com/michaelgruczel/code-challenge-nasa-rover/raw/master/image3.PNG "")
