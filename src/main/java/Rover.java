@@ -14,8 +14,37 @@ public class Rover {
     }
 
     public void move(Movement aMovement) {
-        throw new NotYetImplementedException();
-
+        if(aMovement == Movement.L) {
+            if(currentDirection == Direction.N) {
+                currentDirection = Direction.W;
+            } else if(currentDirection == Direction.E) {
+                currentDirection = Direction.N;
+            } else if(currentDirection == Direction.S) {
+                currentDirection = Direction.E;
+            } else {
+                currentDirection = Direction.S;
+            }
+        } else if(aMovement == Movement.R) {
+            if(currentDirection == Direction.N) {
+                currentDirection = Direction.E;
+            } else if(currentDirection == Direction.E) {
+                currentDirection = Direction.S;
+            } else if(currentDirection == Direction.S) {
+                currentDirection = Direction.W;
+            } else {
+                currentDirection = Direction.N;
+            }
+        } else {
+            if(currentDirection == Direction.N) {
+                currentY += 1;
+            } else if(currentDirection == Direction.E) {
+                currentX += 1;
+            } else if(currentDirection == Direction.S) {
+                currentY -= 1;
+            } else {
+                currentX -= 1;
+            }
+        }
     }
 
     public Integer getId() {
@@ -34,5 +63,8 @@ public class Rover {
         return currentY;
     }
 
+    public Integer getNumber() {
+        return id + 1;
+    }
 
 }

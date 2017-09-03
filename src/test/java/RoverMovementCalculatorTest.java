@@ -27,7 +27,7 @@ public class RoverMovementCalculatorTest {
         testee.calculateMovements(new File(getClass().getClassLoader().getResource("Testinput_fail_only_2_lines").getPath()).getAbsolutePath());
 
         Assert.assertFalse(testee.getResult().isFileValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertTrue(testee.getResult().getMessage().endsWith("Testinput_fail_only_2_lines needs to have at least 3 lines"));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class RoverMovementCalculatorTest {
         testee.calculateMovements(new File(getClass().getClassLoader().getResource("Testinput_fail_no_coords_in_first_line").getPath()).getAbsolutePath());
 
         Assert.assertFalse(testee.getResult().isFileValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertTrue(testee.getResult().getMessage().endsWith("Testinput_fail_no_coords_in_first_line should start with size: <MAX X> <MAX Y>"));
 
     }
 
@@ -50,7 +50,7 @@ public class RoverMovementCalculatorTest {
         testee.calculateMovements(new File(getClass().getClassLoader().getResource("Testinput_fail_illegal_direction_rover1").getPath()).getAbsolutePath());
 
         Assert.assertFalse(testee.getResult().isFileValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertEquals("invalid position of rover 1", testee.getResult().getMessage());
 
     }
 
@@ -74,7 +74,7 @@ public class RoverMovementCalculatorTest {
         testee.calculateMovements(new File(getClass().getClassLoader().getResource("Testinput_fail_no_direction_rover2").getPath()).getAbsolutePath());
 
         Assert.assertFalse(testee.getResult().isFileValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertEquals("rover start postion not valid, line4;", testee.getResult().getMessage());
 
     }
 
@@ -86,7 +86,7 @@ public class RoverMovementCalculatorTest {
         testee.calculateMovements(new File(getClass().getClassLoader().getResource("Testinput_fail_illegal_coords_rover2").getPath()).getAbsolutePath());
 
         Assert.assertFalse(testee.getResult().isFileValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertEquals("rover start postion not valid, line 4;", testee.getResult().getMessage());
 
     }
 
@@ -98,7 +98,7 @@ public class RoverMovementCalculatorTest {
         testee.calculateMovements(new File(getClass().getClassLoader().getResource("Testinput_fail_illegal_direction_rover2").getPath()).getAbsolutePath());
 
         Assert.assertFalse(testee.getResult().isFileValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertEquals("rover start postion not valid, line 4;", testee.getResult().getMessage());
 
     }
 
@@ -110,7 +110,7 @@ public class RoverMovementCalculatorTest {
         testee.calculateMovements(new File(getClass().getClassLoader().getResource("TestInput_fail_illegal_movements").getPath()).getAbsolutePath());
 
         Assert.assertFalse(testee.getResult().isFileValid());
-        Assert.assertEquals("?", testee.getResult().getMessage());
+        Assert.assertEquals("rover line 2 movements contain invalid symbols;", testee.getResult().getMessage());
 
     }
 
@@ -252,4 +252,53 @@ public class RoverMovementCalculatorTest {
 
     }
 
+
+    @Test
+    public void test_extractRoverPositionData() throws Exception {
+
+        RoverMovementCalculator testee1 = new RoverMovementCalculator();
+        Assert.assertEquals(true, testee1.extractRoverPositionData(0, 0, "3 7 N"));
+        Assert.assertEquals(3, testee1.roversInStartPosition.get(0).getCurrentX().intValue());
+        Assert.assertEquals(7, testee1.roversInStartPosition.get(0).getCurrentY().intValue());
+        Assert.assertEquals(Direction.N, testee1.roversInStartPosition.get(0).getCurrentDirection());
+
+        RoverMovementCalculator testee2 = new RoverMovementCalculator();
+        Assert.assertEquals(true, testee2.extractRoverPositionData(0, 0, "22 2 S"));
+        Assert.assertEquals(22, testee2.roversInStartPosition.get(0).getCurrentX().intValue());
+        Assert.assertEquals(2, testee2.roversInStartPosition.get(0).getCurrentY().intValue());
+        Assert.assertEquals(Direction.S, testee2.roversInStartPosition.get(0).getCurrentDirection());
+
+        RoverMovementCalculator testee3 = new RoverMovementCalculator();
+        Assert.assertEquals(true, testee3.extractRoverPositionData(0, 0, "4 4 W"));
+        Assert.assertEquals(4, testee3.roversInStartPosition.get(0).getCurrentX().intValue());
+        Assert.assertEquals(4, testee3.roversInStartPosition.get(0).getCurrentY().intValue());
+        Assert.assertEquals(Direction.W, testee3.roversInStartPosition.get(0).getCurrentDirection());
+
+        RoverMovementCalculator testee4 = new RoverMovementCalculator();
+        Assert.assertEquals(true, testee4.extractRoverPositionData(0, 0, "6 6 E"));
+        Assert.assertEquals(6, testee4.roversInStartPosition.get(0).getCurrentX().intValue());
+        Assert.assertEquals(6, testee4.roversInStartPosition.get(0).getCurrentY().intValue());
+        Assert.assertEquals(Direction.E, testee4.roversInStartPosition.get(0).getCurrentDirection());
+
+        RoverMovementCalculator testee5 = new RoverMovementCalculator();
+        Assert.assertEquals(false, testee5.extractRoverPositionData(0, 0, "6 6 X"));
+
+        RoverMovementCalculator testee6 = new RoverMovementCalculator();
+        Assert.assertEquals(false, testee6.extractRoverPositionData(0, 0, "6 a N"));
+    }
+
+    @Test
+    public void test_extractRoverMovementData() throws Exception {
+
+        RoverMovementCalculator testee1 = new RoverMovementCalculator();
+        Assert.assertEquals(true, testee1.extractRoverMovementData(0, 0, "LLRM"));
+        Assert.assertEquals(Movement.L, testee1.plannedRoverMoves.get(0).get(0));
+        Assert.assertEquals(Movement.L, testee1.plannedRoverMoves.get(0).get(1));
+        Assert.assertEquals(Movement.R, testee1.plannedRoverMoves.get(0).get(2));
+        Assert.assertEquals(Movement.M, testee1.plannedRoverMoves.get(0).get(3));
+
+        RoverMovementCalculator testee2 = new RoverMovementCalculator();
+        Assert.assertEquals(false, testee2.extractRoverPositionData(0, 0, "LxRM"));
+
+    }
 }
